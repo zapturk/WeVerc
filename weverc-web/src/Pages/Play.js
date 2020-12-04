@@ -32,20 +32,43 @@ function Video(link, stime) {
 
 function Play() {
   let location = useLocation();
+  //console.log("count: " + location.state.length);
+  console.log(location);
+  console.log(location.state);
+  console.log(location.state.length);
+  if(location.state.videos.length === 1){
+    console.log("only one video");
+    return (
+      <Container>
+        <Row>
+          <h2>{location.state.videos[0].title}</h2>
+        </Row>
+        <Row>
+          {Video(location.state.videos[0].url, location.state.videos[0].stime)}
+        </Row>
+        <Row>
+          <p>Description:<br/>{location.state.videos[0].des}</p>
+        </Row>
+      </Container>
+    );
+  }
+  else{
+    console.log("more than one");
 
-  return (
-    <Container>
-      <Row>
-        <h2>{location.state.title}</h2>
-      </Row>
-      <Row>
-        {Video(location.state.url, location.state.stime)}
-      </Row>
-      <Row>
-        <p>Description:<br/>{location.state.des}</p>
-      </Row>
-    </Container>
-  );
+    return (
+      <Container>
+        <Row>
+          <h2>{location.state[0].title}</h2>
+        </Row>
+        <Row>
+          {Video(location.state[0].url, location.state[0].stime)}
+        </Row>
+        <Row>
+          <p>Description:<br/>{location.state[0].des}</p>
+        </Row>
+      </Container>
+    );
+  }
 }
 
 

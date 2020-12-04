@@ -10,21 +10,39 @@ import {Link} from "react-router-dom"
 class Upload extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
-            url: '', 
-            title: '',
-            des: '',
-            program: '',
-            stime: '',
-            etime: '',
-            keyword: ''};
+        // this.state = { 
+        //     url: '', 
+        //     title: '',
+        //     des: '',
+        //     program: '',
+        //     stime: '',
+        //     keyword: ''
+        // };
+        this.state = {
+            videos: []
+        };
+
+        this.state.videos.push(
+            { 
+                url: '', 
+                title: '',
+                des: '',
+                program: '',
+                stime: '',
+                keyword: ''
+            });
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
-        this.setState({ [event.target.id]: event.target.value });
+        var a = [];
+        a.push(this.state.videos[0]);
+        a[0][event.target.id] = event.target.value;
+        console.log(a);
+        this.setState({ videos: a });
+        console.log(this.state);
     }
 
     handleSubmit(event) {
@@ -39,15 +57,15 @@ class Upload extends React.Component {
         var error = "";
         
         // if(typeof this.state.url === "undefined" || (!(this.state.url.includes("https://www.youtube.com")) || !(this.state.url.includes("https://vimeo.com/"))))
-        if(typeof this.state.url === "undefined"){
+        if(typeof this.state.videos[0]["url"] === "undefined"){
             error = error.concat("Not a valid link \n");
         }
 
-        if(typeof this.state.url === "undefined"  || this.state.title === ""){
+        if(typeof this.state.videos[0]["title"] === "undefined"  || this.state.videos[0]["title"] === ""){
             error = error.concat("You must have a title \n");
         }
 
-        if(typeof this.state.url === "undefined" || this.state.keyword === ""){
+        if(typeof this.state.videos[0]["keyword"] === "undefined" || this.state.videos[0]["keyword"] === ""){
             error = error.concat("You must have as least 1 key word \n");
         }
         
@@ -61,7 +79,7 @@ class Upload extends React.Component {
         return (
             <Container>
                 <Row>
-                    <h2>Uplade a Video</h2>
+                    <h2>Upload a Video</h2>
                 </Row>
                 <Row>
                     <InputGroup size="sm" className="mb-3">
@@ -98,13 +116,9 @@ class Upload extends React.Component {
                 <Row>
                     <InputGroup size="sm" className="mb-3">
                         <InputGroup.Prepend>
-                            <InputGroup.Text id="inputGroup-sizing-sm">Start Time</InputGroup.Text>
+                            <InputGroup.Text id="inputGroup-sizing-sm">Start Time(Sec)</InputGroup.Text>
                         </InputGroup.Prepend>
                         <FormControl type="number" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="stime" value={this.state.stime} onChange={this.handleChange}/>
-                        <InputGroup.Prepend>
-                            <InputGroup.Text id="inputGroup-sizing-sm">End Time</InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <FormControl type="number" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="etime" value={this.state.etime} onChange={this.handleChange}/>
                     </InputGroup>
                 </Row>
                 <Row>
