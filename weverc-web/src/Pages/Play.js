@@ -1,8 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Image from 'react-bootstrap/Image'
 import React from "react";
+import Button from 'react-bootstrap/Button';
+import Left from "../Img/left.png";
+import Right from "../Img/right.png";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 function Video(link, stime) {
   if (link.includes("youtube")) {
@@ -29,14 +34,40 @@ function Video(link, stime) {
   }
 }
 
-
 function Play() {
   let location = useLocation();
-  //console.log("count: " + location.state.length);
-  console.log(location);
-  console.log(location.state);
-  console.log(location.state.length);
-  if(location.state.videos.length === 1){
+  let videoPos = location.state.videoPos;
+
+  function handleLeft() {
+    if (videoPos > 0) {
+      location.state.videoPos = --videoPos;
+    }
+  }
+
+  function handleRight() {
+    if (videoPos < location.state.videos.length - 1) {
+      location.state.videoPos = ++videoPos;
+    }
+  }
+
+  function makeFile() {
+    let filename = location.state.videos[videoPos].program + ".verc";
+    let contentType = "application/verc;charset=utf-8;";
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(location.state)))], { type: contentType });
+      navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+      var a = document.createElement('a');
+      a.download = filename;
+      a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(location.state));
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  }
+
+  if (location.state.videos.length === 1) {
     console.log("only one video");
     return (
       <Container>
@@ -47,24 +78,31 @@ function Play() {
           {Video(location.state.videos[0].url, location.state.videos[0].stime)}
         </Row>
         <Row>
-          <p>Description:<br/>{location.state.videos[0].des}</p>
+          <p>Description:<br />{location.state.videos[0].des}</p>
         </Row>
       </Container>
     );
   }
-  else{
+  else {
     console.log("more than one");
-
     return (
       <Container>
         <Row>
-          <h2>{location.state[0].title}</h2>
+          <h1>Program: {location.state.videos[videoPos].program}</h1>
         </Row>
         <Row>
-          {Video(location.state[0].url, location.state[0].stime)}
+          <h2>{location.state.videos[videoPos].title}</h2>
         </Row>
         <Row>
-          <p>Description:<br/>{location.state[0].des}</p>
+          <Link to={{ pathname: '/play', state: location.state }}><Image src={Left} width={50} height={50} onClick={handleLeft} /></Link>
+          {Video(location.state.videos[videoPos].url, location.state.videos[videoPos].stime)}
+          <Link to={{ pathname: '/play', state: location.state }}><Image src={Right} width={50} height={50} onClick={handleRight} /></Link>
+        </Row>
+        <Row>
+          <p>Description:<br />{location.state.videos[videoPos].des}</p>
+        </Row>
+        <Row>
+          <Button variant="outline-info" onClick={makeFile}>Download Playlist</Button>
         </Row>
       </Container>
     );

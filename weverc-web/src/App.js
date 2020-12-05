@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import './App.css';
 import Header from './Components/Header';
+import Home from './Pages/Home'
 import Upload from './Pages/Upload';
 import Play from './Pages/Play';
 
@@ -15,9 +16,6 @@ export default function App() {
       <div>
         <Header />
         <Switch>
-          <Route path="/watch">
-            <About />
-          </Route>
           <Route path="/upload">
             <Upload />
           </Route>
@@ -32,12 +30,3 @@ export default function App() {
     </Router>
   );
 }
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-

@@ -12,7 +12,6 @@ const Header = () => {
             <Navbar bg="dark" variant="dark">
                 <Navbar.Brand href="/">WeVerc</Navbar.Brand>
                 <Nav className="mr-auto">
-                    {/* <Nav.Link href="/">Home</Nav.Link> */}
                     <Nav.Link href="/program">Program</Nav.Link>
                     <Nav.Link href="/upload">Upload</Nav.Link>
                 </Nav>

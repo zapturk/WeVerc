@@ -10,14 +10,6 @@ import {Link} from "react-router-dom"
 class Upload extends React.Component {
     constructor(props) {
         super(props);
-        // this.state = { 
-        //     url: '', 
-        //     title: '',
-        //     des: '',
-        //     program: '',
-        //     stime: '',
-        //     keyword: ''
-        // };
         this.state = {
             videos: []
         };
