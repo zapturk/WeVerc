@@ -1,8 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Image from 'react-bootstrap/Image';
 import React from "react";
 import VideoImg from "../Img/video.png"
+import PlaylistImg from "../Img/playlist.jpg"
 import { Link } from "react-router-dom"
 
 class Home extends React.Component {
@@ -75,7 +77,7 @@ class Home extends React.Component {
                 </Row>
                 <Row>
                     <div>
-                        <Link to={{ pathname: '/play', state: this.exampleVideo }}><img src={VideoImg} alt="..." /></Link>
+                        <Link to={{ pathname: '/play', state: this.exampleVideo }}><Image src={VideoImg} alt="..." width={580} height={322}/></Link>
                     </div>
                 </Row>
                 <br />
@@ -86,7 +88,7 @@ class Home extends React.Component {
                 </Row>
                 <Row>
                     <div>
-                        <Link to={{ pathname: '/play', state: this.exampleProgram }}><img src={VideoImg} alt="..." /></Link>
+                        <Link to={{ pathname: '/play', state: this.exampleProgram }}><Image src={PlaylistImg} alt="..." width={580} height={322} /></Link>
                     </div>
                 </Row>
             </Container>

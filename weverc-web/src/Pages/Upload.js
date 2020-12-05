@@ -11,7 +11,8 @@ class Upload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            videos: []
+            videos: [],
+            videoPos: 0
         };
 
         this.state.videos.push(
@@ -21,11 +22,13 @@ class Upload extends React.Component {
                 des: '',
                 program: '',
                 stime: '',
-                keyword: ''
+                keyword: '',
+                order: 0
             });
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onUpload = this.onUpload.bind(this)
     }
 
     handleChange(event) {
@@ -65,6 +68,19 @@ class Upload extends React.Component {
             alert(error);
             event.preventDefault();
         }
+    }
+
+    onUpload(event){
+        const reader = new FileReader();
+        const scope = this;
+
+        reader.onload = function () { 
+            const text = (reader.result);
+            var obj = JSON.parse(text);
+            scope.setState({ videos: obj.videos });
+            scope.setState({ videoPos: obj.videoPos });
+          };
+        reader.readAsText(event.target.files[0]);
     }
 
     render() {
@@ -124,6 +140,16 @@ class Upload extends React.Component {
                 <Row>
                     <Link to={{pathname: '/play', state: this.state}}><Button variant="outline-info" onClick={this.handleSubmit}>Upload</Button></Link>
                     <Button variant="outline-info" href="/">Cancle</Button>
+                </Row>
+                <Row>
+                    <br />
+                </Row>
+                <Row>
+                    <h2>Upload a Program</h2>
+                </Row>
+                <Row>
+                    <input type="file" class="form-control" accept=".verc," onChange={this.onUpload} />
+                    <Link to={{pathname: '/play', state: this.state}}><Button variant="outline-info">Play Playlist</Button></Link>
                 </Row>
             </Container>
         );
